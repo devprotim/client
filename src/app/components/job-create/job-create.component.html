@@ -1,1 +1,13 @@
-<p>job-create works!</p>
+<div class="job-create-container">
+    <div class="job-create-header">
+        <h1>Post a New Job</h1>
+        <p>Fill out the form below to create a new job listing.</p>
+    </div>
+
+    <mat-card class="job-create-card">
+        <mat-card-content>
+            <app-job-form [loading]="loading" (formSubmit)="onSubmit($event)" (formCancel)="onCancel()">
+            </app-job-form>
+        </mat-card-content>
+    </mat-card>
+</div>

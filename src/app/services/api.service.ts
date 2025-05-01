@@ -21,7 +21,10 @@ export class ApiService {
   get<T>(endpoint: string, params?: any, requiresAuth: boolean = true): Observable<T> {
     const url = `${this.apiUrl}/${endpoint}`;
     const options = this.buildRequestOptions(params, requiresAuth);
-    return this.http.get<T>(url, options);
+    return this.http.get<T>(url, {
+      headers: options.headers,
+      params: options.params
+    });
   }
 
   /**
@@ -34,7 +37,10 @@ export class ApiService {
   post<T>(endpoint: string, body: any, requiresAuth: boolean = true): Observable<T> {
     const url = `${this.apiUrl}/${endpoint}`;
     const options = this.buildRequestOptions(null, requiresAuth);
-    return this.http.post<T>(url, body, options);
+    return this.http.post<T>(url, body, {
+      headers: options.headers,
+      params: options.params
+    });
   }
 
   /**
@@ -47,7 +53,10 @@ export class ApiService {
   put<T>(endpoint: string, body: any, requiresAuth: boolean = true): Observable<T> {
     const url = `${this.apiUrl}/${endpoint}`;
     const options = this.buildRequestOptions(null, requiresAuth);
-    return this.http.put<T>(url, body, options);
+    return this.http.put<T>(url, body, {
+      headers: options.headers,
+      params: options.params
+    });
   }
 
   /**
@@ -59,7 +68,10 @@ export class ApiService {
   delete<T>(endpoint: string, requiresAuth: boolean = true): Observable<T> {
     const url = `${this.apiUrl}/${endpoint}`;
     const options = this.buildRequestOptions(null, requiresAuth);
-    return this.http.delete<T>(url, options);
+    return this.http.delete<T>(url, {
+      headers: options.headers,
+      params: options.params
+    });
   }
 
   /**
