@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Job, JobRequest } from '../../models/job.model';
 
@@ -7,7 +7,7 @@ import { Job, JobRequest } from '../../models/job.model';
   templateUrl: './job-form.component.html',
   styleUrls: ['./job-form.component.scss']
 })
-export class JobFormComponent implements OnInit {
+export class JobFormComponent implements OnInit, OnChanges {
   @Input() job: Job | null = null;
   @Input() loading = false;
   @Output() formSubmit = new EventEmitter<JobRequest>();
@@ -27,6 +27,18 @@ export class JobFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    console.log('ngOnInit job:', this.job);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // If the job input changes and the form is already initialized
+    if (changes['job'] && this.jobForm) {
+      console.log('ngOnChanges job:', this.job);
+      // Only update if the job is not null and has changed
+      if (this.job && (!changes['job'].firstChange || changes['job'].currentValue !== changes['job'].previousValue)) {
+        this.updateForm();
+      }
+    }
   }
 
   initForm(): void {
@@ -39,6 +51,20 @@ export class JobFormComponent implements OnInit {
       requirements: [this.job?.requirements || '', Validators.maxLength(2000)],
       status: [this.job?.status || 'active']
     });
+  }
+
+  updateForm(): void {
+    if (this.job) {
+      this.jobForm.patchValue({
+        title: this.job.title || '',
+        description: this.job.description || '',
+        location: this.job.location || '',
+        salaryRange: this.job.salaryRange || '',
+        jobType: this.job.jobType || 'full-time',
+        requirements: this.job.requirements || '',
+        status: this.job.status || 'active'
+      });
+    }
   }
 
   onSubmit(): void {

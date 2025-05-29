@@ -151,7 +151,7 @@ export class JobDetailComponent implements OnInit {
 
   editJob(): void {
     if (!this.job || !this.job.id) return;
-    this.router.navigate(['/jobs', this.job.id, 'edit']);
+    this.router.navigate(['/create-job'], { queryParams: { id: this.job.id } });
   }
 
   goBack(): void {
